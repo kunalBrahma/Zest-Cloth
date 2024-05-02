@@ -109,8 +109,52 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="logout.php?module=category" class="nav-link">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Frontend Master
+                <i class="fas fa-angle-left right"></i>
+              
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+           
+          <li class="nav-item">
+            <a href="index.php?module=top-bar" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
+              <p>
+                Top-bar offers
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="index.php?module=slider" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Slider Images
+                
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="index.php?module=product" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Product
+                
+              </p>
+            </a>
+          </li>
+           
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="logout.php?module=category" class="nav-link">
+              
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+
+
               <p>
                 Log out
             

@@ -1,4 +1,6 @@
 <?php
+session_start();
+include 'database.php';
 
 
         $page_name = @$_GET['page'];

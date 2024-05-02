@@ -1,4 +1,4 @@
-<?php 
+ <?php 
 // for reading 
  try {
         $sql_1 = "SELECT * FROM `product-info` WHERE pi_type ='Sub-Category' ";
@@ -9,11 +9,16 @@
        
     }
 $type = @$_GET['type'];
+
 $short_desc = @$_POST['short_desc'];
 $long_desc = @$_POST['long_desc'];
-$pi_size = @$_POST['size'];
-$pi_color = @$_POST['color'];
+$pi_size = @$_POST['pi_size'];
+$pi_color = @$_POST['pi_color'];
 $pi_name = @$_POST['name'];
+$pi_sub = @$_POST['pi_sub'];
+$pi_parent = @$_POST['pi_parent'];
+$pi_type = 'Product';
+
 
 $value3 = @$_GET['id'];
 
@@ -61,25 +66,112 @@ else if ($type == 'Delete') {
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
-} else {
+}
+ else {
     if (isset($_POST['sub'])) {
-        try {
-            $sql = "INSERT INTO `product-info` (pi_type, pi_name, pi_parent) VALUES (:value1, :value2, :v3)";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':value1', $value1);
-            $stmt->bindParam(':value2', $value2);
-            $stmt->bindParam(':v3', $v3);
 
-            $stmt->execute();
+
+                  $allow = array("jpg", "JPG", "jpeg", "JPEG", "gif", "GIF", "png", "PNG", "pdf", "PDF");
+              //1st File
+              if($_FILES['photo1']['name'] == "") {
+                //echo "No Image"
+              } else {
+
+                $photo1=basename($_FILES['photo1']['name']);
+                $extension = pathinfo($photo1, PATHINFO_EXTENSION);
+                if(in_array($extension,$allow)){
+                  $target_path = "../assests/product-photo";
+                  $photo1 = md5(rand() * time()).'.'.$extension;
+                  $target_path = $target_path . $photo1;
+                  move_uploaded_file($_FILES['photo1']['tmp_name'], $target_path);
+                  $photo_one = ($photo1!='')?" pi_img1='$photo1' ". ',':'';
+                }
+              
+              }
+               //2nd File
+               if($_FILES['photo2']['name'] == "") {
+                //echo "No Image"
+              } else {
+
+                $photo2=basename($_FILES['photo2']['name']);
+                $extension = pathinfo($photo2, PATHINFO_EXTENSION);
+                if(in_array($extension,$allow)){
+                  $target_path = "../assests/product-photo";
+                  $photo2 = md5(rand() * time()).'.'.$extension;
+                  $target_path = $target_path . $photo2;
+                  move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
+                  $photo_two = ($photo2!='')?" pi_img2='$photo2' ". ',':'';
+                }
+              
+              }
+              //2nd File
+              if($_FILES['photo3']['name'] == "") {
+                //echo "No Image"
+              } else {
+
+                $photo3=basename($_FILES['photo3']['name']);
+                $extension = pathinfo($photo3, PATHINFO_EXTENSION);
+                if(in_array($extension,$allow)){
+                  $target_path = "../assests/product-photo";
+                  $photo3 = md5(rand() * time()).'.'.$extension;
+                  $target_path = $target_path . $photo3;
+                  move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
+                  $photo_three = ($photo3!='')?" pi_img3='$photo3' ". ',':'';
+                }
+              
+              }
+              //2nd File
+              if($_FILES['photo4']['name'] == "") {
+                //echo "No Image"
+              } else {
+
+                $photo4=basename($_FILES['photo4']['name']);
+                $extension = pathinfo($photo4, PATHINFO_EXTENSION);
+                if(in_array($extension,$allow)){
+                  $target_path = "../assests/product-photo";
+                  $photo4 = md5(rand() * time()).'.'.$extension;
+                  $target_path = $target_path . $photo4;
+                  move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
+                  $photo_four = ($photo4!='')?" pi_img4='$photo4' ". ',':'';
+                }
+              
+              }
+          
+        try {
+
+         
+          $sql_1 = "INSERT INTO `product-info` 
+          SET $photo_one  $photo_two $photo_three $photo_four
+          pi_parent = :pi_parent,
+          pi_sub = :pi_sub,
+          pi_name = :pi_name,
+          pi_size = :pi_size,
+          pi_color = :pi_color,
+          short_desc = :short_desc,
+          long_desc = :long_desc,
+          pi_type = :pi_type";
+
+          $stmt_1 = $pdo->prepare($sql_1);
+          $stmt_1->bindParam(':pi_parent', $pi_parent);
+          $stmt_1->bindParam(':pi_sub', $pi_sub);
+          $stmt_1->bindParam(':pi_name', $pi_name);
+          $stmt_1->bindParam(':pi_size', $pi_size);
+          $stmt_1->bindParam(':pi_color', $pi_color);
+          $stmt_1->bindParam(':short_desc', $short_desc);
+          $stmt_1->bindParam(':long_desc', $long_desc);
+          $stmt_1->bindParam(':pi_type', $pi_type);
+
+          $stmt_1->execute();
 
             echo "Record inserted successfully.";
-            echo "<script>window.location.href = 'index.php?module=Sub-category';</script>";
+            echo "<script>window.location.href = 'index.php?module=product';</script>";
 
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
-}
+       
+ }
 
 
 
@@ -99,11 +191,11 @@ else if ($type == 'Delete') {
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post">
+              <form method="post" enctype="multipart/form-data">
                 <div class="card-body">
-                  <div class="form-group">
+                <div class="form-group">
                     <label for="exampleInputEmail1">Main-Category</label>
-                    <select name="product_cat" class="form-control">
+                    <select name="pi_parent" class="form-control" onchange="fetchproduct(this.value)">
                     <option value=""><?php echo @$main_cat_name ?></option>
                     <option value="">---Select Sub Catgeory---</option>
                     <?php 
@@ -113,7 +205,7 @@ else if ($type == 'Delete') {
             
                     while ($row_6 = $stmt_6->fetch()) {
                       // Process the retrieved data
-                    $main_cat_name_6 = $row_6['pi_name'];
+                    $main_cat_name_6 = $row_6['pi_parent'];
                         echo "<option> $main_cat_name_6 </option>";
                     }
                     ?>
@@ -122,23 +214,9 @@ else if ($type == 'Delete') {
                     
                   </div>
                   <div class="form-group">
+                   
                     <label for="exampleInputEmail1">Sub-Category</label>
-                    <select name="product_sub_cat" class="form-control">
-                    <option value=""><?php echo @$main_cat_name ?></option>
-                    <option value="">---Select Sub Catgeory---</option>
-                    <?php 
-                    $sql_sub = "SELECT * FROM `product-info` WHERE pi_type ='Sub-Category' ";
-                    $stmt_sub = $pdo->query($sql_sub);
-                    $stmt_sub->execute(); 
-            
-                    while ($row_sub = $stmt_sub->fetch()) {
-                      // Process the retrieved data
-                    $main_cat_name_6 = $row_sub['pi_parent'];
-                        echo "<option> $main_cat_name_6 </option>";
-                    }
-                    ?>
-
-                    </select>
+                    <div id="txtHint"></div>
                     
                   </div>
                   
@@ -148,7 +226,7 @@ else if ($type == 'Delete') {
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Select size</label>
-                    <select name="product_cat" class="form-control">
+                    <select name="pi_size" class="form-control">
                             <option value="">----select size----</option>
                             <option>S</option>
                             <option>M</option>
@@ -160,7 +238,7 @@ else if ($type == 'Delete') {
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Select Color</label>
-                    <select name="product_cat" class="form-control">
+                    <select name="pi_color" class="form-control">
                             <option value="">----select color----</option>
                             <option>Black</option>
                             <option>Blue</option>
@@ -183,9 +261,11 @@ else if ($type == 'Delete') {
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Product Image</label>
-                    <input class="form-control" type="file" name="img1">
-                    <input class="form-control" type="file" name="img2">
-                    <input class="form-control" type="file" name="img3">
+                    <input class="form-control" type="file" name="photo1">
+                    <input class="form-control" type="file" name="photo2">
+                    <input class="form-control" type="file" name="photo3">
+                    <input class="form-control" type="file" name="photo4">
+                  
                     
                   </div>
                   
@@ -193,6 +273,7 @@ else if ($type == 'Delete') {
                
                  
                 </div>
+                
                 <!-- /.card-body -->
 
                 <div class="card-footer">
@@ -208,7 +289,7 @@ else if ($type == 'Delete') {
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table class="table table-bordered">
+              <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 30px">Sl no.</th>
@@ -224,8 +305,8 @@ else if ($type == 'Delete') {
                               $i = 1;
                                while ($row = $stmt_1->fetch()) {
                                   // Process the retrieved data
-                                $main_cat_name = $row['pi_name'];
-                                $sub_cat_name = $row['pi_parent'];
+                                $main_cat_name = $row['pi_parent'];
+                                $sub_cat_name = $row['pi_sub'];
                                 $main_id =$row['id'];
                                ?>
                                
@@ -262,4 +343,23 @@ else if ($type == 'Delete') {
       </div>
     </div>
  </div>
+ <script type="text/javascript">
+function fetchproduct(str) {
+  if (str.length == 0) {
+    document.getElementById("txtHint").innerHTML = "";
+    return;
+  } else {
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onload = function() {
+      document.getElementById("txtHint").innerHTML = this.responseText;
+    };
+    xmlhttp.open("GET", "integration/ajax/product-fetch.php?parent=" + str);
+   
+
+    xmlhttp.send();
+  }
+}
+  
+
+ </script>
  

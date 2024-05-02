@@ -15,7 +15,8 @@ $value1 = "Main-Category";
 $value2 = $pi_cat;
 $value3 = @$_GET['id'];
 
-if ($type == 'Edit') {
+if ($type == 'Edit')
+ {
 
   $sql_5 = "SELECT * FROM `product-info` WHERE id ='$value3' ";
         $stmt_5 = $pdo->query($sql_5);
@@ -23,24 +24,26 @@ if ($type == 'Edit') {
 
         while ($row_5 = $stmt_5->fetch()) {
           // Process the retrieved data
-        $main_cat_name = $row_5['pi_name'];
+        $main_cat_name = $row_5['pi_parent'];
        
         }
-
-  try {
-      $sql_ed = "UPDATE `product-info` SET pi_name = :value2 WHERE id = :id";
-      $stmt_ed = $pdo->prepare($sql_ed);
-
-      $stmt_ed->bindParam(':value2', $value2);
-      $stmt_ed->bindParam(':id', $value3); // Bind the id parameter to $value3
-      $stmt_ed->execute();
-
-     
-      // echo "<script>window.location.href = 'index.php?module=category';</script>";
+        if(isset($_POST['sub'])){
+          try {
+            $sql_ed = "UPDATE `product-info` SET pi_parent = :value2 WHERE id = :id";
+            $stmt_ed = $pdo->prepare($sql_ed);
       
-  } catch (PDOException $e) {
-      echo "Error: " . $e->getMessage();
-  }
+            $stmt_ed->bindParam(':value2', $value2);
+            $stmt_ed->bindParam(':id', $value3); // Bind the id parameter to $value3
+            $stmt_ed->execute();
+      
+           
+            echo "<script>window.location.href = 'index.php?module=category';</script>";
+            
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        }
+  
 }
 
 else if ($type == 'Delete') {
@@ -58,7 +61,7 @@ else if ($type == 'Delete') {
 } else {
     if (isset($_POST['sub'])) {
         try {
-            $sql = "INSERT INTO `product-info` (pi_type, pi_name) VALUES (:value1, :value2)";
+            $sql = "INSERT INTO `product-info` (pi_type, pi_parent) VALUES (:value1, :value2)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':value1', $value1);
             $stmt->bindParam(':value2', $value2);
@@ -134,7 +137,7 @@ else if ($type == 'Delete') {
                               $i = 1;
                                while ($row = $stmt_1->fetch()) {
                                   // Process the retrieved data
-                                $main_cat_name = $row['pi_name'];
+                                $main_cat_name = $row['pi_parent'];
                                 $main_id =$row['id'];
                                ?>
                                

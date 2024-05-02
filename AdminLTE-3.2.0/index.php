@@ -33,6 +33,22 @@ include '../database.php';
     include('inc/product-body.php');
     include('inc/footer.php');
   }
+  else if($module == 'top-bar'){
+    include('inc/header.php');
+    include('inc/preloader.php');
+    include('inc/navbar.php');
+    include('inc/sidebar.php');
+    include('inc/top-bar-body.php');
+    include('inc/footer.php');
+  }
+  else if($module == 'slider'){
+    include('inc/header.php');
+    include('inc/preloader.php');
+    include('inc/navbar.php');
+    include('inc/sidebar.php');
+    include('inc/slider-body.php');
+    include('inc/footer.php');
+  }
   else {
     include('inc/header.php');
     include('inc/preloader.php');

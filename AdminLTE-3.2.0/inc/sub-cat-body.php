@@ -25,14 +25,14 @@ if ($type == 'Edit') {
 
         while ($row_5 = $stmt_5->fetch()) {
           // Process the retrieved data
-        $main_cat_name = $row_5['pi_name'];
-        $main_sub_cat_name5 = $row_5['pi_parent'];
+        $main_cat_name = $row_5['pi_parent'];
+        $main_sub_cat_name5 = $row_5['pi_sub'];
 
        
         }
 if(isset($_POST['sub'])){
   try {
-    $sql_ed = "UPDATE `product-info` SET pi_parent = :v3 WHERE id = :id";
+    $sql_ed = "UPDATE `product-info` SET pi_sub = :v3 WHERE id = :id";
     $stmt_ed = $pdo->prepare($sql_ed);
 
     $stmt_ed->bindParam(':v3', $v3);
@@ -64,11 +64,11 @@ else if ($type == 'Delete') {
 } else {
     if (isset($_POST['sub'])) {
         try {
-            $sql = "INSERT INTO `product-info` (pi_type, pi_name, pi_parent) VALUES (:value1, :value2, :v3)";
+            $sql = "INSERT INTO `product-info` (pi_type, pi_sub, pi_parent) VALUES (:value1, :value2, :v3)";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':value1', $value1);
-            $stmt->bindParam(':value2', $value2);
-            $stmt->bindParam(':v3', $v3);
+            $stmt->bindParam(':value2', $v3);
+            $stmt->bindParam(':v3', $value2);
 
             $stmt->execute();
 
@@ -113,7 +113,7 @@ else if ($type == 'Delete') {
             
                     while ($row_6 = $stmt_6->fetch()) {
                       // Process the retrieved data
-                    $main_cat_name_6 = $row_6['pi_name'];
+                    $main_cat_name_6 = $row_6['pi_parent'];
                         echo "<option> $main_cat_name_6 </option>";
                     }
                     ?>
@@ -162,8 +162,8 @@ else if ($type == 'Delete') {
                               $i = 1;
                                while ($row = $stmt_1->fetch()) {
                                   // Process the retrieved data
-                                $main_cat_name = $row['pi_name'];
-                                $sub_cat_name = $row['pi_parent'];
+                                $main_cat_name = $row['pi_parent'];
+                                $sub_cat_name = $row['pi_sub'];
                                 $main_id =$row['id'];
                                ?>
                                
