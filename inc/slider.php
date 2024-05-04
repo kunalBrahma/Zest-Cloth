@@ -7,6 +7,28 @@
               <button type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
+            
+            <?php
+              
+                $sql_s = "SELECT * FROM frontend_master WHERE fm_type = 'Slider' ";
+                $stmt_s = $pdo->query($sql_s);
+                $stmt_s->execute();  
+                
+                while ($row = $stmt_1->fetch()) {
+                    // Process the retrieved data
+                  $fm_2 = $row['fm_2'];
+                 ?>
+                  <div class="carousel-item active" data-bs-interval="3000">
+                  <img src="../AdminLTE-3.2.0/assests/slider/<?php echo $fm_2;  ?>" class="d-block w-100" alt="...">
+                  <div class="carousel-caption d-none d-md-block">
+                    
+                  </div>
+                </div>
+                 
+                 <?php   
+                    }
+                  ?>
+    </p>
               <div class="carousel-item active" data-bs-interval="3000">
                 <img src="img/slider/slider1.png" class="d-block w-100" alt="...">
                 <div class="carousel-caption d-none d-md-block">

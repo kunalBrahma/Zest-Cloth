@@ -18,6 +18,8 @@ $pi_name = @$_POST['name'];
 $pi_sub = @$_POST['pi_sub'];
 $pi_parent = @$_POST['pi_parent'];
 $pi_type = 'Product';
+$pi_price = @$_POST['pi_price'];
+$pi_selling = @$_POST['pi_selling'];
 
 
 $value3 = @$_GET['id'];
@@ -80,7 +82,7 @@ else if ($type == 'Delete') {
                 $photo1=basename($_FILES['photo1']['name']);
                 $extension = pathinfo($photo1, PATHINFO_EXTENSION);
                 if(in_array($extension,$allow)){
-                  $target_path = "../assests/product-photo";
+                  $target_path = "assests/product/";
                   $photo1 = md5(rand() * time()).'.'.$extension;
                   $target_path = $target_path . $photo1;
                   move_uploaded_file($_FILES['photo1']['tmp_name'], $target_path);
@@ -96,7 +98,7 @@ else if ($type == 'Delete') {
                 $photo2=basename($_FILES['photo2']['name']);
                 $extension = pathinfo($photo2, PATHINFO_EXTENSION);
                 if(in_array($extension,$allow)){
-                  $target_path = "../assests/product-photo";
+                  $target_path = "assests/product/";
                   $photo2 = md5(rand() * time()).'.'.$extension;
                   $target_path = $target_path . $photo2;
                   move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
@@ -112,10 +114,10 @@ else if ($type == 'Delete') {
                 $photo3=basename($_FILES['photo3']['name']);
                 $extension = pathinfo($photo3, PATHINFO_EXTENSION);
                 if(in_array($extension,$allow)){
-                  $target_path = "../assests/product-photo";
+                  $target_path = "assests/product/";
                   $photo3 = md5(rand() * time()).'.'.$extension;
                   $target_path = $target_path . $photo3;
-                  move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
+                  move_uploaded_file($_FILES['photo3']['tmp_name'], $target_path);
                   $photo_three = ($photo3!='')?" pi_img3='$photo3' ". ',':'';
                 }
               
@@ -128,10 +130,10 @@ else if ($type == 'Delete') {
                 $photo4=basename($_FILES['photo4']['name']);
                 $extension = pathinfo($photo4, PATHINFO_EXTENSION);
                 if(in_array($extension,$allow)){
-                  $target_path = "../assests/product-photo";
+                  $target_path = "assests/product/";
                   $photo4 = md5(rand() * time()).'.'.$extension;
                   $target_path = $target_path . $photo4;
-                  move_uploaded_file($_FILES['photo2']['tmp_name'], $target_path);
+                  move_uploaded_file($_FILES['photo4']['tmp_name'], $target_path);
                   $photo_four = ($photo4!='')?" pi_img4='$photo4' ". ',':'';
                 }
               
@@ -149,6 +151,8 @@ else if ($type == 'Delete') {
           pi_color = :pi_color,
           short_desc = :short_desc,
           long_desc = :long_desc,
+          pi_price = :pi_price,
+          pi_selling = :pi_selling,
           pi_type = :pi_type";
 
           $stmt_1 = $pdo->prepare($sql_1);
@@ -159,6 +163,8 @@ else if ($type == 'Delete') {
           $stmt_1->bindParam(':pi_color', $pi_color);
           $stmt_1->bindParam(':short_desc', $short_desc);
           $stmt_1->bindParam(':long_desc', $long_desc);
+          $stmt_1->bindParam(':pi_price', $pi_price);
+          $stmt_1->bindParam(':pi_selling', $pi_selling);
           $stmt_1->bindParam(':pi_type', $pi_type);
 
           $stmt_1->execute();
@@ -258,6 +264,14 @@ else if ($type == 'Delete') {
                     <label for="exampleInputEmail1">Long Description</label>
                     <textarea id="editor" class="form-control" name="long_desc"><?php echo @$long_desc; ?></textarea>
                     
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">MRP Price</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1"  name="pi_price">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Selling Price</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" value="<?php echo  @$main_sub_cat_name5 ?>" name="pi_selling">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Product Image</label>

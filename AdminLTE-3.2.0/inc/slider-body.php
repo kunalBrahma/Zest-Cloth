@@ -28,7 +28,7 @@ if(!isset($_FILES['photo1']['name']) || $_FILES['photo1']['name'] == ""){
   $photo1=basename($_FILES['photo1']['name']);
   $extension = pathinfo($photo1, PATHINFO_EXTENSION);
   if(in_array($extension,$allow)){
-    $target_path = "../assests/slider";
+    $target_path = "assests/slider/";
     $photo1 = md5(rand() * time()).'.'.$extension;
     $target_path = $target_path . $photo1;
     move_uploaded_file($_FILES['photo1']['tmp_name'], $target_path);
@@ -171,7 +171,7 @@ else if (isset($type) && $type == 'Delete') {
                                   // Process the retrieved data
                                 $slider_name = $row['fm_1'];
                                 $slider_image = $row['fm_2'];
-                                @$main_id =$row['id'];
+                                @$main_id =$row['Id'];
                                 
 
                                ?>

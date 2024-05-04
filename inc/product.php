@@ -1,22 +1,53 @@
+<?php
+              try {
+                $sql_1 = "SELECT * FROM `product-info` WHERE id = 161 ";
+                $stmt_1 = $pdo->query($sql_1);
+                $stmt_1->execute();  
+                
+                while ($row = $stmt_1->fetch()) {
+                    // Process the retrieved data
+                  $pi_name = $row['pi_name'];
+                  $pi_parent = $row['pi_parent'];
+                  $short_desc = $row['short_desc'];
+                  $long_desc = $row['long_desc'];
+                  $pi_size = $row['pi_size'];
+                  $pi_price = $row['pi_price'];
+                  $pi_selling = $row['pi_selling'];
+                  $pi_img1 =$row['pi_img1'];
+                  $pi_img2 =$row['pi_img2'];
+                  $pi_img3 =$row['pi_img3'];
+                  $pi_img4 =$row['pi_img4'];
+                
+                }
+                
+              } catch (PDOException $e) {
+              
+              }
+            ?>
+    </p>
+
 <!-- product page  -->
 <div>
   <div class="outer-product-box">
       <div class="img1" id="myImage">
-          <img src="img/product/p1.jpg" width="100%" height="100%" alt="">
+          <img src="img/product/<?php echo $pi_img4; ?>" width="100%" height="100%" alt="">
       </div>
       <div class="img1">
           <img src="img/product/p2.jpg" width="100%" height="100%" alt="">
       </div>
       <div class="details">
           <p style="font-size: 2.5rem;">
-              REGULAR FIT POLO-NECK TOP
+          <?php echo $pi_name; ?>
+              <!-- REGULAR FIT POLO-NECK TOP -->
           </p>
           <p style="font-size: 1.5rem; font-weight: 200; letter-spacing: 1px;">
-              Black stylish high neck for men
+          <?php echo $short_desc; ?>    
+          <!-- Black stylish high neck for men -->
           </p>
         <div class="outer-tag">
               <div class="inner-tag">
-              <ul >
+              <?php echo $long_desc; ?>
+              <!-- <ul >
                   <li>Cotton: 58%</li>
                   <li>Polyester: 42%</li>
                   <li>Jersey</li>
@@ -24,7 +55,7 @@
                   <li>Harvested from the cotton plant.</li>
                   <li>A synthetic fiber made from crude oil (a fossil resource).</li>
                   <li>Derived from petroleum.</li>
-              </ul>
+              </ul> -->
             </div>
         </div>
         <p style="font-size: 1.2rem;">Available Colors:</p>
@@ -40,12 +71,61 @@
         <p style="font-size: 1.2rem;">Available Sizes:</p>
         <div class="outer-tag-colors">
           <div class="inner-tag-colors">
-              <div class="ava-size" >XXL</div>
-              <div class="ava-size" >XL</div>
-              <div class="ava-size" >L</div>
-              <div class="ava-size" >M</div>
+            <?php
+              if($pi_size=='S'){
+            ?>
               <div class="ava-size" >S</div>
+            <?php
+              }else{
+            ?>  <div class="ava-size" style="background-color: gray;" >S</div>
+            <?php
+              } 
+            ?>
+              <?php
+              if($pi_size=='M'){
+            ?>
+              <div class="ava-size" >M</div>
+            <?php
+              }else{
+            ?>  <div class="ava-size" style="background-color: gray;" >M</div>
+            <?php
+              } 
+            ?>
+            <?php
+              if($pi_size=='L'){
+            ?>
+              <div class="ava-size" >L</div>
+            <?php
+              }else{
+            ?>  <div class="ava-size" style="background-color: gray;" >L</div>
+            <?php
+              } 
+            ?>
+            <?php
+              if($pi_size=='XL'){
+            ?>
+              <div class="ava-size" >XL</div>
+            <?php
+              }else{
+            ?>  <div class="ava-size" style="background-color: gray;" >XL</div>
+            <?php
+              } 
+            ?>
+            <?php
+              if($pi_size=='XXL'){
+            ?>
+              <div class="ava-size" >XXL</div>
+            <?php
+              }else{
+            ?>  <div class="ava-size" style="background-color: gray;" >XXL</div>
+            <?php
+              } 
+            ?>
+
         </div>
+        </div>
+        <div style="text-align: center; padding-top: 30px;">
+          <button class="btn-buy" style="background-color:White; color: Black"><?php echo  $pi_selling; ?> <strike style="color:red; font-size:14px"><?php echo  $pi_price; ?></strike></button>
         </div>
         <div style="text-align: center; padding-top: 30px;">
           <button class="btn-buy">BUY NOW</button>
@@ -55,20 +135,20 @@
   <div class="inner-img">
     <div class="product-img" id="myImage">
       <a href="" onclick="document.getElementById('myImage').src='img/product/p4.jpg'">
-        <img src="img/product/p1.jpg" width="100%" height="100%" alt="">
+        <img src="img/product/<?php echo $pi_img4; ?>" width="100%" height="100%" alt="">
       </a>
     </div>
     <div class="product-img">
-      <img src="img/product/p2.jpg" width="100%" height="100%" alt="">
+      <img src="img/product/<?php echo $pi_img4; ?>" width="100%" height="100%" alt="">
     </div>
     <div class="product-img">
-      <img src="img/product/p3.jpg" width="100%" height="100%" alt="">
+      <img src="img/product/<?php echo $pi_img1; ?>" width="100%" height="100%" alt="">
     </div>
     <div class="product-img">
-      <img src="img/product/p4.jpg" width="100%" height="100%" alt="">
+      <img src="img/product/<?php echo $pi_img3; ?>" width="100%" height="100%" alt="">
     </div>
     <div class="product-img">
-      <img src="img/product/p5.jpg" width="100%" height="100%" alt="">
+      <img src="img/product/<?php echo $pi_img2; ?>" width="100%" height="100%" alt="">
     </div>
     <div class="product-img">
       <img src="img/product/p6.jpg" width="100%" height="100%" alt="">
